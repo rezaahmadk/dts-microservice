@@ -15,5 +15,5 @@ func main() {
 	router.Handle("/add-menu", http.HandlerFunc(handler.AddMenu))
 
 	fmt.Println("Menu Service Listen on PORT 8000")
-	log.Panic(http.ListenAndSave(":8000", router))
+	log.Panic(http.ListenAndServe(":8000", router))
 }
