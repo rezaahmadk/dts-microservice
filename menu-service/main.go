@@ -5,6 +5,9 @@ import (
 	"log"
 	"net/http"
 
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
+
 	"github.com/gorilla/mux"
 	"github.com/rezaahmadk/dts-microservice/menu-service/config"
 	"github.com/rezaahmadk/dts-microservice/menu-service/handler"
@@ -17,6 +20,8 @@ func main() {
 		log.Panic(err)
 		return
 	}
+
+	db, err := initDB(cfg.Database)
 
 	router := mux.NewRouter()
 
@@ -42,4 +47,14 @@ func getConfig() (config.Config, error) {
 	}
 
 	return cfg, nil
+}
+
+func initDB(dbConfig config.Database) (*gorm.DB, error) {
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?%s", dbConfig.User, dbConfig.Password, dbConfig.Host, dbConfig.Port, dbConfig.Config)
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
+		return nil, err
+	}
+
+	return db, nil
 }
