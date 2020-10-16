@@ -25,7 +25,9 @@ func main() {
 
 	router := mux.NewRouter()
 
-	router.Handle("/add-menu", http.HandlerFunc(handler.AddMenu))
+	menuHandler := handler.Menu{Db: db}
+
+	router.Handle("/add-menu", http.HandlerFunc(menuHandler.AddMenu))
 
 	fmt.Printf("Server Listen On :%s", cfg.Port)
 	log.Panic(http.ListenAndServe(fmt.Sprintf(":%s", cfg.Port), router))
