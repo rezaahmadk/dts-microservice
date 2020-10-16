@@ -10,6 +10,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/rezaahmadk/dts-microservice/menu-service/config"
+	"github.com/rezaahmadk/dts-microservice/menu-service/database"
 	"github.com/rezaahmadk/dts-microservice/menu-service/handler"
 	"github.com/spf13/viper"
 )
@@ -52,8 +53,13 @@ func getConfig() (config.Config, error) {
 }
 
 func initDB(dbConfig config.Database) (*gorm.DB, error) {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?%s", dbConfig.User, dbConfig.Password, dbConfig.Host, dbConfig.Port, dbConfig.Config)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?%s", dbConfig.User, dbConfig.Password, dbConfig.Host, dbConfig.Port, dbConfig.DbName, dbConfig.Config)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
+		return nil, err
+	}
+
+	err = db.AutoMigrate(&database.Menu{})
 	if err != nil {
 		return nil, err
 	}
