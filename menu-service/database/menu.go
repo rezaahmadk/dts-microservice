@@ -4,6 +4,7 @@ import "gorm.io/gorm"
 
 type Menu struct {
 	ID       int    `json:"id" gorm:"primary_key"`
+	Username string `json:"username"`
 	MenuName string `json:"menu_name"`
 	Price    int    `json:"price"`
 }

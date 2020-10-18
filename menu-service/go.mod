@@ -3,6 +3,7 @@ module github.com/rezaahmadk/dts-microservice/menu-service
 go 1.15
 
 require (
+	github.com/gorilla/context v1.1.1
 	github.com/gorilla/mux v1.8.0
 	github.com/rezaahmadk/dts-microservice v0.0.0-20201015033134-eebc142286c2
 	github.com/spf13/viper v1.7.1
